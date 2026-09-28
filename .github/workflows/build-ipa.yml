@@ -33,7 +33,6 @@ jobs:
             -target App \
             -configuration Release \
             -sdk iphoneos \
-            -destination "generic/platform=iOS" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
@@ -46,7 +45,7 @@ jobs:
           APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -iname "App.app" -type d | head -n1)
           if [ -z "$APP_PATH" ]; then
             echo "Nao encontrado. Estrutura da DerivedData:"
-            find ~/Library/Developer/Xcode/DerivedData -maxdepth 4
+            find ~/Library/Developer/Xcode/DerivedData -maxdepth 6
             exit 1
           fi
           echo "App encontrado em: $APP_PATH"
