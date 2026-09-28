@@ -39,7 +39,7 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             DEVELOPMENT_TEAM=""
 
-            - name: Empacotar em .ipa (o SideStore/AltStore assina depois, com seu Apple ID gratuito)
+      - name: Empacotar em .ipa (o SideStore/AltStore assina depois, com seu Apple ID gratuito)
         run: |
           echo "Procurando App.app..."
           find ~/Library/Developer/Xcode/DerivedData -iname "App.app" -type d
