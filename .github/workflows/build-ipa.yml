@@ -39,9 +39,16 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             DEVELOPMENT_TEAM=""
 
-      - name: Empacotar em .ipa (o SideStore/AltStore assina depois, com seu Apple ID gratuito)
+            - name: Empacotar em .ipa (o SideStore/AltStore assina depois, com seu Apple ID gratuito)
         run: |
-          APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -iname "App.app" -path "*Release-iphoneos*" | head -n1)
+          echo "Procurando App.app..."
+          find ~/Library/Developer/Xcode/DerivedData -iname "App.app" -type d
+          APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -iname "App.app" -type d | head -n1)
+          if [ -z "$APP_PATH" ]; then
+            echo "Nao encontrado. Estrutura da DerivedData:"
+            find ~/Library/Developer/Xcode/DerivedData -maxdepth 4
+            exit 1
+          fi
           echo "App encontrado em: $APP_PATH"
           mkdir -p Payload
           cp -r "$APP_PATH" Payload/
