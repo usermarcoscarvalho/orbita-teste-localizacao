@@ -1,0 +1,55 @@
+name: Build iOS de teste (sem assinatura)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v4
+
+      - name: Instalar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependencias do projeto
+        run: npm install
+
+      - name: Gerar www/app.js (esbuild)
+        run: npm run build
+
+      - name: Sincronizar projeto iOS (Capacitor)
+        run: npx cap sync ios
+
+      - name: Compilar o app (sem assinatura de codigo)
+        run: |
+          xcodebuild build \
+            -project ios/App/App.xcodeproj \
+            -target App \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            -destination "generic/platform=iOS" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            DEVELOPMENT_TEAM=""
+
+      - name: Empacotar em .ipa (o SideStore/AltStore assina depois, com seu Apple ID gratuito)
+        run: |
+          APP_PATH=$(find build/Build/Products -maxdepth 1 -iname "*.app" | head -n1)
+          echo "App encontrado em: $APP_PATH"
+          mkdir -p Payload
+          cp -r "$APP_PATH" Payload/
+          zip -r orbita-teste-localizacao.ipa Payload
+
+      - name: Publicar o .ipa como artefato do build
+        uses: actions/upload-artifact@v4
+        with:
+          name: orbita-teste-localizacao-ipa
+          path: orbita-teste-localizacao.ipa

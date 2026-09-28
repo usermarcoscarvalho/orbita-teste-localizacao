@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Orbita - Teste de Localizacao</title>
+  <style>
+    body { font-family: -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; margin: 0; padding: 20px; }
+    h1 { font-size: 18px; margin-bottom: 4px; }
+    p.sub { color: #94a3b8; font-size: 13px; margin-top: 0; }
+    button { display: block; width: 100%; padding: 14px; margin: 10px 0; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; }
+    #start { background: #22c55e; color: #052e13; }
+    #stop { background: #ef4444; color: #2e0505; }
+    #clear { background: #334155; color: #e2e8f0; }
+    #status { background: #1e293b; padding: 12px; border-radius: 10px; font-size: 14px; margin: 14px 0; }
+    #count { font-weight: 700; color: #38bdf8; }
+    ul { list-style: none; padding: 0; margin: 0; max-height: 50vh; overflow-y: auto; }
+    li { background: #1e293b; padding: 8px 10px; border-radius: 8px; margin-bottom: 6px; font-size: 13px; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <h1>Teste de localizacao em segundo plano</h1>
+  <p class="sub">Projeto isolado, so para testar - nao faz parte do sistema Orbita.</p>
+
+  <button id="start">Iniciar rastreio</button>
+  <button id="stop">Parar rastreio</button>
+  <button id="clear">Limpar historico</button>
+
+  <div id="status">Parado.</div>
+  <p>Pontos registrados: <span id="count">0</span></p>
+  <ul id="log"></ul>
+
+  <script src="app.js"></script>
+</body>
+</html>
