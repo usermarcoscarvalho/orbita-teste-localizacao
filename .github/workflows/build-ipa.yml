@@ -36,6 +36,7 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
+            AD_HOC_CODE_SIGNING_ALLOWED=YES \
             DEVELOPMENT_TEAM=""
 
       - name: Empacotar em .ipa (o SideStore/AltStore assina depois, com seu Apple ID gratuito)
