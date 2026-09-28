@@ -28,25 +28,23 @@ jobs:
 
       - name: Compilar o app (sem assinatura de codigo)
         run: |
-          xcodebuild build \
+          xcodebuild archive \
             -project ios/App/App.xcodeproj \
-            -target App \
+            -scheme App \
             -configuration Release \
-            -sdk iphoneos \
+            -archivePath build/App.xcarchive \
+            -destination "generic/platform=iOS" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
-            AD_HOC_CODE_SIGNING_ALLOWED=YES \
             DEVELOPMENT_TEAM=""
 
       - name: Empacotar em .ipa (o SideStore/AltStore assina depois, com seu Apple ID gratuito)
         run: |
-          echo "Procurando App.app..."
-          find ~/Library/Developer/Xcode/DerivedData -iname "App.app" -type d
-          APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -iname "App.app" -type d | head -n1)
-          if [ -z "$APP_PATH" ]; then
-            echo "Nao encontrado. Estrutura da DerivedData:"
-            find ~/Library/Developer/Xcode/DerivedData -maxdepth 6
+          APP_PATH="build/App.xcarchive/Products/Applications/App.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "Nao encontrado. Conteudo do archive:"
+            find build/App.xcarchive
             exit 1
           fi
           echo "App encontrado em: $APP_PATH"
